@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js">
+    
+	</script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.semanticui.min.css">
+	<style>
+		html {
+			overflow-y: auto;
+		}
+	</style>
+
+</head>
+
+<body  style="background:#f1f5f8">
+
+	<div class="ui teal attached menu" style="margin-bottom: 1.5em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+	<div class="ui grid">
+		<div class="two wide column">
+			<div class="ui teal secondary vertical pointing  labeled icon menu">
+				<a class="item">
+					<i class="home icon" href="index.html"></i>Home
+				</a>
+				<a class="item" href="training.html">
+					<i class="whmcs icon"></i>Training
+				</a>
+				<a class="item" href="prediction.html">
+					<i class="stethoscope icon"></i>Diagnosis
+				</a>
+				<a class="item" href="report.html">
+					<i class="newspaper outline icon"></i>Report
+				</a>
+				<a class="item" href="faqs.html">
+					<i class="question circle outline icon"></i>FAQ
+				</a>
+        			<a class="active item" href="files.html">
+					<i class="folder open icon"></i>Files
+				</a>
+                <a class="item" href="vtkviewer.html">
+					<i class="street view icon"></i>VTKViewer
+				</a>
+			</div>
+            </div>
+		<div class="thirteen wide column" id="app-body" style="">
+            <table id="example" class="ui celled table" style="width:100%">
+            <thead>
+                
+            <tr><th colspan="3">
+            My Files
+            </th>
+            </tr>
+            <tr>  
+                <th>FileName</th>
+                <th>Annotation</th>
+                <th>Last Edit</th>
+                <th>Doctor Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td class="collapsing"> 
+                    <i class="file alternate icon"></i>Skull_20
+                </td>
+                <td class="positive"><i class="icon checkmark"></i>Annotated </td>
+                <td>9 hours ago</td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>Review
+                    </div></a></td>
+                </tr>
+                <tr>
+                
+                <td>
+                    <i class="file outline icon"></i>TopView_220
+                </td>
+                 <td class="error"><i class="icon attention"></i>Not Annotated </td>
+                <td> - </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>Review
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                   <i class="file alternate icon"></i>Abdomen_35
+                </td>
+                <td class="positive"><i class="icon checkmark"></i>Annotated </td>
+                <td>2 days ago</td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>Review
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                    <i class="file alternate  icon"></i>Skull_7
+                </td>
+               <td class="positive"><i class="icon checkmark"></i>Annotated </td>
+                <td >10 hours ago</td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>Review
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                    <i class="file outline icon"></i>SampleData_67
+                </td>
+                <td class="error"><i class="icon attention"></i>Not Annotated </td>
+                <td> - </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>Review
+                    </div></a></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                <th colspan="4">
+                    <div class="ui right floated primary labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i> Add New
+                    </div>
+                </th>
+                </tr>
+            </tfoot>
+            </table>    
+        </div>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.semanticui.min.js"></script>
+        <script>
+            $(document).ready(function() {
+            $('#example').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
+        });
+        </script>
+		<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'>
+		</script>
+		<script>
+			function swal()
+            {
+                Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3']
+                }).queue([
+                {
+                    title: 'Select Type',
+                text: 'Select type of files that you want to upload',
+                imageUrl: '3594607-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Type',
+                },
+                {
+                    title: 'Upload folder',
+                text: 'Upload from local device or using url.',
+                imageUrl: '3125018-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Upload',
+                },
+                {
+                    title: 'Annotate',
+                text: 'Annotate files using dicom viewer and save changes',
+                imageUrl: '3369515-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Annotate',
+                },
+                ]).then((result) => {
+                  if (result.value) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'All done!',
+                    text:'Now you can use our service',
+                    confirmButtonText: 'Lovely!'
+                    })
+                  }
+                })
+               
+            }
+		</script>
+</body>
+
+</html>

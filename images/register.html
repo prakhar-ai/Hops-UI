@@ -1,8 +1,45 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js">
+	</script>
+	<style>
+		html {
+			overflow-y: auto;
+		}
+	</style>
 
+</head>
 
+<body  style="background:#f1f5f8">
+
+	<div class="ui teal attached menu" style="margin-bottom: 1em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+		<div class="twelve wide column" id="app-body" style="margin-top:5em">
             <div class="ui centered grid container">
                 <div class="nine wide column">
                 <div class="ui icon warning message" id="message">
@@ -45,6 +82,7 @@
                 </div>
             </div>
         </div>
+		</div>
         <script>
             $('#login').submit(function() {
                 var values = {};
@@ -81,5 +119,53 @@
                 
             });
             </script>
+		<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'>
+		</script>
+		<script>
+			function swal()
+            {
+                Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3']
+                }).queue([
+                {
+                    title: 'Select Type',
+                text: 'Select type of files that you want to upload',
+                imageUrl: '3594607-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Type',
+                },
+                {
+                    title: 'Upload folder',
+                text: 'Upload from local device or using url.',
+                imageUrl: '3125018-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Upload',
+                },
+                {
+                    title: 'Annotate',
+                text: 'Annotate files using dicom viewer and save changes',
+                imageUrl: '3369515-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Annotate',
+                },
+                ]).then((result) => {
+                  if (result.value) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'All done!',
+                    text:'Now you can use our service',
+                    confirmButtonText: 'Lovely!'
+                    })
+                  }
+                })
+               
+            }
+		</script>
+</body>
 
-{% endblock content %}
+</html>
