@@ -1,0 +1,225 @@
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
+	</script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js">
+	</script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+	<style>
+		html {
+			overflow-y: auto;
+		}
+        .ql-toolbar.ql-snow
+        {
+            background-color:white!important;
+        }
+	</style>
+</head>
+
+<body style="background-color:#f1f5f8;padding-right:0em !important">
+
+	<div class="ui teal attached menu" style="margin-bottom: 1.5em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+	<div class="ui grid">
+		<div class="two wide column">
+			<div class="ui teal secondary vertical pointing  labeled icon menu">
+				<a class="item" href="index.html">
+					<i class="home icon"></i>Home
+				</a>
+				<a class="item" href="training.html">
+					<i class="whmcs icon"></i>Training
+				</a>
+				<a class="item" href="prediction.html">
+					<i class="stethoscope icon"></i>Diagnosis
+				</a>
+				<a class="item" href="report.html">
+					<i class="newspaper outline icon"></i>Report
+				</a>
+				<a class="active item" href="faqs.html">
+					<i class="question circle outline icon"></i>FAQ
+				</a>
+        			<a class="item" href="files.html">
+					<i class="folder open icon"></i>Files
+				</a>
+                <a class="item" href="vtkviewer.html">
+					<i class="street view icon"></i>VTKViewer
+				</a>
+			</div>
+            </div>
+		<div class="thirteen wide column" id="app-body">
+      <div class="ui form">
+          <div class="feild">
+              <label>Review</label>
+            <div id="editor" style="background-color:#fff;height:20em!important;">
+                <p>Please write your views here !</p>
+                <p>Some initial <strong>bold</strong> text</p>
+                <p><br></p>
+            </div>
+          </div>
+             <div class="field">
+                <label>Dr Review for SMS</label>
+                <textarea rows="3"></textarea>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                <label> Condition Type </label>
+             <div class="ui selection dropdown" >
+                <input type="hidden" name="cd_type">
+          <i class="dropdown icon"></i>
+          <div class="default text">ConditionType</div>
+                <div class="menu">
+                    <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input type="text" placeholder="Search Condition Type...">
+                    </div>
+                    <div class="divider"></div>
+                    <div class="header">
+                    <i class="file icon"></i>
+                    Select Condition Type
+                    </div>
+                    <div class="scrolling menu">
+                    <div class="item" data-value="abnormal">
+                        <div class="ui red empty circular label"></div>
+                        Abnormal
+                    </div>
+                    <div class="item" data-value="covid">
+                        <div class="ui blue empty circular label"></div>
+                       Covid
+                    </div>
+                    <div class="item" data-value="normal">
+                        <div class="ui black empty circular label"></div>
+                        Normal
+                    </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                <div class="field">
+                    <label> Condition Type Reason </label>
+                <div class="ui selection dropdown" >
+                  <input type="hidden" name="cd_reason">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Reason</div>
+                <div class="menu">
+                    <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input type="text" placeholder="Search Condition Reason...">
+                    </div>
+                    <div class="divider"></div>
+                    <div class="header">
+                    <i class="file icon"></i>
+                    Select Reason Type
+                    </div>
+                    <div class="scrolling menu">
+                    <div class="item" data-value="abnormal">
+                        <div class="ui red empty circular label"></div>
+                      Text1
+                    </div>
+                    <div class="item" data-value="covid">
+                        <div class="ui blue empty circular label"></div>
+                      Text2
+                    </div>
+                    <div class="item" data-value="normal">
+                        <div class="ui black empty circular label"></div>
+                        Text3
+                    </div>
+                    </div>
+                </div>
+                </div>  
+
+                </div>
+            </div>
+ <button class="ui teal labeled icon button" style="margin-top: 1em;"><i class="save icon"></i>Save Review
+          </button>
+        
+      <button class="ui purple labeled icon button" style="margin-top: 1em;"><i class="comment icon" ></i>Last Dr. Review
+          </button>
+  
+
+
+         </div>
+        </div>
+        <script>
+            $('.dropdown').dropdown();
+        </script>
+            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+            <script>
+            var quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+            </script>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>
+        <script>
+            $(".accordion").accordion();
+            function swal()
+            {
+                Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3']
+                }).queue([
+                {
+                    title: 'Select Type',
+                text: 'Select type of files that you want to upload',
+                imageUrl: '3594607-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Type',
+                },
+                {
+                    title: 'Upload folder',
+                text: 'Upload from local device or using url.',
+                imageUrl: '3125018-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Upload',
+                },
+                {
+                    title: 'Annotate',
+                text: 'Annotate files using dicom viewer and save changes',
+                imageUrl: '3369515-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Annotate',
+                },
+                ]).then((result) => {
+                  if (result.value) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'All done!',
+                    text:'Now you can use our service',
+                    confirmButtonText: 'Lovely!'
+                    })
+                  }
+                })
+               
+            }
+            </script>
+    </body>
+
+
+</html>

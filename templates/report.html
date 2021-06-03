@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js">
+	</script>
+	<style>
+		html {
+			overflow-y: auto;
+		}
+	</style>
+
+</head>
+
+<body  style="background:#f1f5f8">
+
+	<div class="ui teal attached menu" style="margin-bottom: 1.5em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+    
+	<div class="ui grid">
+	<!--	<div class="three wide column">
+			<div class="ui teal secondary vertical pointing tabular menu">
+				<a class="item" href="index.html">
+					Home
+				</a>
+				<a class="item" href="training.html">
+					Training
+				</a>
+				<a class="item" href="prediction.html">
+					Diagnosis
+				</a>
+				<a class="active item" href="report.html">
+					Report
+				</a>
+				<a class="item" href="faqs.html">
+					FAQ
+				</a>
+        				<a class="item" href="files.html">
+					Files
+				</a>
+                <a class="item" href="vtkviewer.html">
+					VTKViewer
+				</a>
+			</div>
+		</div>-->
+        <div class="two wide column">
+			<div class="ui teal secondary vertical pointing  labeled icon menu">
+				<a class="item" href="index.html">
+					<i class="home icon"></i>Home
+				</a>
+				<a class="item" href="training.html">
+					<i class="whmcs icon"></i>Training
+				</a>
+				<a class="item" href="prediction.html">
+					<i class="stethoscope icon"></i>Diagnosis
+				</a>
+				<a class="active item" href="report.html">
+					<i class="newspaper outline icon"></i>Report
+				</a>
+				<a class="item" href="faqs.html">
+					<i class="question circle outline icon"></i>FAQ
+				</a>
+        			<a class="item" href="files.html">
+					<i class="folder open icon"></i>Files
+				</a>
+                <a class="item" href="vtkviewer.html">
+					<i class="street view icon"></i>VTKViewer
+				</a>
+			</div>
+            </div>
+        
+		<div class="thirteen wide column" id="app-body" style="">
+            <div id="render_me">
+                <div id="table">
+                <table class="ui teal table">
+                    
+                    <tbody>
+                        <tr>
+                        <td><b>Name</b></td>
+                        <td>Rahul Jain</td>
+                        
+                        </tr>
+                        <tr>
+                        <td><b>Age</b></td>
+                        <td>21</td>
+                        </tr>
+                         <tr>
+                        <td><b>Sex</b></td>
+                        <td>Male</td>
+                        
+                        </tr>
+                        <tr>
+                        <td><b>Address</b></td>
+                        <td>19 Narayan Chambers , 2nd Floor , Behind Patang Hotel , Ashram Road, Ahmedabad, Gujarat 380009</td>
+                        </tr>
+                        <tr>
+                        <td><b>Result Type</b></td>
+                        <td>Abnormal</td>
+                        </tr>
+                         <tr>
+                        <td><b>Global Diagnosis</b></td>
+                         <td>Mild</td>
+                        </tr>
+                    </tbody></table>
+                </div>
+                <div class="ui four column grid" style="margin-top:1%">
+                    <div class="column">
+                    <div class="ui segment">
+                         <a class="ui violet ribbon label"  id="pop" data-html="<table class='ui violet table'><tbody><tr>
+                        <td><b>Region1</b></td>
+                        <td>70%</td>
+                        </tr>
+                        <tr>
+                        <td><b>Region2</b></td>
+                        <td>30%</td>
+                        </tr></tbody></table>">Front</a>
+                        <img class="ui medium image" src="front.png">
+                    </div>
+                    </div>
+                    <div class="column">
+                    <div class="ui segment">
+                        <a id="pop" class="ui violet ribbon label">Lateral</a>
+                        <img class="ui medium image" src="lateral.png">
+
+                    </div>
+                    </div>
+                    <div class="column">
+                    <div class="ui segment">
+                        <a id="pop" class="ui violet ribbon label">Natural</a>
+                        <img class="ui medium image" src="natural.png">
+                    </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui segment">
+                        <a id="pop" class="ui violet ribbon label">Top</a>
+                        <img class="ui medium image" src="top.png">
+                    </div>
+                    </div>
+                 </div>
+<!--
+            <div class="ui small images" style="margin:2em">
+
+                    <img class="ui medium bordered image" src="front.png" style="height: 250px;  width: 250px;margin:0.5em">
+                
+                    <img class="ui medium bordered image" src="lateral.png" style="height: 250px;  width: 250px;margin:0.5em">
+
+                    <img class="ui medium bordered image" src="top.png" style="height: 250px;  width: 250px;margin:0.5em">
+ 
+                    <img class="ui medium bordered image" src="natural.png" style="height: 250px;  width: 250px;margin:0.5em">
+
+                </div>-->
+                
+                  <div class="ui container" style="margin-top:1%">
+                <button class="ui green labeled icon button" id = "report-download"  style="margin:1%"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download Report</button>
+                <a href="vtkviewer.html">
+                 <button class="ui blue primary labeled icon button" style="margin:1%">
+                        <i class="x ray icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View VTK File
+                     </button>
+                     </a>
+                  <button class="ui teal primary labeled icon button" style="margin:1%" type="submit">
+                        <i class="images icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View 2D Images
+                     </button>
+                </div>
+            </div>
+        <script src='https://parall.ax/parallax/js/jspdf.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js'></script>
+        <script>
+           /* var doc = new jsPDF();
+            var specialElementHandlers = {
+                '#editor': function(element, renderer){
+                    return true;
+                }
+            };
+
+            doc.fromHTML($('#render_me').get(0), 15, 15, {
+                'width': 100, 
+                'elementHandlers': specialElementHandlers
+            });
+
+            $('a').click(function(){
+            doc.save('TestHTMLDoc.pdf');
+            });
+    
+           var element = document.getElementById('render_me');
+
+            html2pdf(element).set({
+            margin: 1,
+            filename: 'test.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: {orientation: 'portrait', unit: 'in', format: 'letter', compressPDF: false}
+            }).save();*/
+        </script>
+		<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'>
+		</script>
+		<script>
+            $('#pop').popup({
+            inline     : true,
+            hoverable  : true,
+            position   : 'top center',
+            delay: {
+            show: 100,
+            hide: 400
+            }
+         });
+			function swal()
+            {
+                Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3']
+                }).queue([
+                {
+                    title: 'Select Type',
+                text: 'Select type of files that you want to upload',
+                imageUrl: '3594607-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Type',
+                },
+                {
+                    title: 'Upload folder',
+                text: 'Upload from local device or using url.',
+                imageUrl: '3125018-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Upload',
+                },
+                {
+                    title: 'Annotate',
+                text: 'Annotate files using dicom viewer and save changes',
+                imageUrl: '3369515-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Annotate',
+                },
+                ]).then((result) => {
+                  if (result.value) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'All done!',
+                    text:'Now you can use our service',
+                    confirmButtonText: 'Lovely!'
+                    })
+                  }
+                })
+               
+            }
+		</script>
+</body>
+
+</html>

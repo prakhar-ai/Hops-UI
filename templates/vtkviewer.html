@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+	<style>
+		html {
+			overflow-y: auto;
+		}
+	</style>
+    
+
+</head>
+
+<body style="background-color:#f1f5f8;">
+
+	<div class="ui teal attached menu" style="margin-bottom: 1.5em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+	<div class="ui grid">
+		<div class="two wide column">
+			<div class="ui teal secondary vertical pointing  labeled icon menu">
+				<a class="item" href="index.html">
+					<i class="home icon"></i>Home
+				</a>
+				<a class="item" href="training.html">
+					<i class="whmcs icon"></i>Training
+				</a>
+				<a class="item" href="prediction.html">
+					<i class="stethoscope icon"></i>Diagnosis
+				</a>
+				<a class="item" href="report.html">
+					<i class="newspaper outline icon"></i>Report
+				</a>
+				<a class="item" href="faqs.html">
+					<i class="question circle outline icon"></i>FAQ
+				</a>
+        			<a class="item" href="files.html">
+					<i class="folder open icon"></i>Files
+				</a>
+                <a class="active item" href="vtkviewer.html">
+					<i class="street view icon"></i>VTKViewer
+				</a>
+			</div>
+            </div>
+		<div class="thirteen wide column" id="app-body" style="height: 100vh!important;">
+            <div class="content"></div>
+              <script src="vtkviewer.js">
+	            </script>  
+        </div>
+</body>
+</html>

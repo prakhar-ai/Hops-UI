@@ -1,0 +1,306 @@
+<html>
+
+<head>
+	<title>Hops </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
+	</script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js">
+	</script>
+
+	<link href="https://transloadit.edgly.net/releases/uppy/v1.16.1/uppy.min.css" rel="stylesheet">
+
+	<style>
+		html {
+			overflow-y: auto;
+		}
+	</style>
+</head>
+
+<body style='background-color:#f1f5f8;padding-right:0px !important'>
+
+	<div class="ui teal attached menu" style="margin-bottom: 1.5em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+	<div class="ui grid">
+		<div class="two wide column">
+			<div class="ui teal secondary vertical pointing  labeled icon menu">
+				<a class="item" href="index.html">
+					<i class="home icon"></i>Home
+				</a>
+				<a class="active item" href="training.html">
+					<i class="whmcs icon"></i>Training
+				</a>
+				<a class="item" href="prediction.html">
+					<i class="stethoscope icon"></i>Diagnosis
+				</a>
+				<a class="item" href="report.html">
+					<i class="newspaper outline icon"></i>Report
+				</a>
+				<a class="item" href="faqs.html">
+					<i class="question circle outline icon"></i>FAQ
+				</a>
+        			<a class="item" href="files.html">
+					<i class="folder open icon"></i>Files
+				</a>
+                <a class="item" href="vtkviewer.html">
+					<i class="street view icon"></i>VTKViewer
+				</a>
+			</div>
+            </div>
+		<div class="thirteen wide column" id="app-body">
+			<div class="ui tablet stackable steps">
+				<div class="active step" id="upload-step">
+					<i class="upload icon" ></i>
+              <div class="content" >
+                <div class="title" >Upload File</div>
+                <div class="description">Upload your DICOM/Image file</div>
+              </div>
+            </div>
+            <div class="disabled step" id = "diag-step">
+              <i class="whmcs icon" ></i>
+              <div class="content">
+                <div class="title" >Train</div>
+                <div class="description" >Train your data</div>
+              </div>
+            </div>
+          </div>
+        </br>
+            <div id="ftype" class="ui violet basic floating dropdown labeled icon button" >
+    <i class="file icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>
+    <span id="filetype" class="text">FileType</span>
+    <div class="menu">
+        <div class="ui icon search input">
+        <i class="search icon"></i>
+        <input type="text" placeholder="Search File Type...">
+        </div>
+        <div class="divider"></div>
+        <div class="header">
+        <i class="file icon"></i>
+        Select File Type
+        </div>
+        <div class="scrolling menu">
+        <div class="item" data-value=".jpeg">
+            <div class="ui red empty circular label"></div>
+            JPEG
+        </div>
+        <div class="item" data-value=".dcm">
+            <div class="ui blue empty circular label"></div>
+            DICOM
+        </div>
+        <div class="item" data-value=".zip">
+            <div class="ui black empty circular label"></div>
+            ZIP
+        </div>
+        <div class="item" data-value=".png">
+            <div class="ui purple empty circular label"></div>
+            PNG
+        </div>
+        
+        </div>
+    </div>
+    </div>
+
+
+          <button class="ui violet basic labeled icon button"  tabindex="0" id="uppy-btn" style="margin: 1em;" onclick="upload()"><i class="upload icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Upload File
+          </button>
+          
+        </br>
+        <button class="ui violet disabled fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" style="background-color: rgba(16, 136, 136, 0.726);" onclick="train()"><div>Train</div>
+        </button>
+
+  </br>
+       
+          <div id="drag-drop-area"></div>
+
+
+
+        </div>
+      </div>
+
+        </div>
+          
+
+
+
+
+            
+    </body>
+
+
+
+ 
+    <script src="https://transloadit.edgly.net/releases/uppy/v1.16.1/uppy.min.js"></script>
+
+<script>
+
+    var allowedfiles=[];
+    var uppy = Uppy.Core({
+            debug: true,
+            restrictions: {
+                maxFileSize: 1000000,
+                maxNumberOfFiles: 10,
+                minNumberOfFiles: 1,
+                allowedFileTypes:allowedfiles
+            }
+            })
+            uppy.use(Uppy.Dashboard, {
+            target: '#drag-drop-area',
+            theme:'dark',
+            browserBackButtonClose: true,
+			closeModalOnClickOutside: true,
+			closeAfterFinish: true,
+            onRequestCloseModal: () => {
+                    uppy.getPlugin('Dashboard').closeModal();
+                },
+
+            })
+            uppy.use(Uppy.Tus, {endpoint: 'https://tusd.tusdemo.net/files/'})
+
+            const Url = Uppy.Url
+            uppy.use(Url, {target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io/'})
+            uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
+            uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
+            uppy.use(Uppy.OneDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
+
+            uppy.on('complete', (result) => {
+                console.log('Upload complete! We’ve uploaded these files:', result.successful)
+                document.getElementById("diag-button").classList.remove('disabled');
+                $('#app-body')
+                .toast({
+                    message: 'File Uploaded',
+                    class : 'teal',
+                    className: {
+                    toast: 'ui message'
+                }
+                })
+                document.getElementById("upload-step").classList.add('completed');
+                document.getElementById("diag-step").classList.remove('disabled');
+                document.getElementById("diag-step").classList.add('active');
+                
+            })
+    var value='FileType';
+    $('.ui.dropdown').dropdown('setting', 'onChange', function(){
+        value = $('#ftype').dropdown('get value');
+    });
+    function upload()
+    {
+        var file_text = document.getElementById("filetype").innerText;
+        console.log(file_text);
+        if(file_text=="FileType")
+        {
+            Swal.fire({
+                    icon:'error',
+                    title: 'Please select type of file',
+                    
+                    confirmButtonText: 'Okay!'
+                    })
+        }
+        else
+        {
+            uppy.getPlugin('Dashboard').openModal();
+            allowedfiles=[];
+            allowedfiles.push(".".concat(file_text.toLowerCase().trim()));
+            //console.log(allowedfiles[0]); 
+            //console.log(uppy);
+            uppy["opts"]["restrictions"]["allowedFileTypes"]=allowedfiles;
+           // document.getElementById("uppy-btn").classList.remove('disabled');
+            //document.getElementById("uppy-btn").classList.add('active');
+        }
+    }
+    
+</script>
+
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>
+        <script>
+           
+            function train()
+            {
+                Swal.fire({
+                    icon:'success',
+                    title: 'We have received your files',
+                    text:'Now We will train model in less than 24 hrs and send you the notification.',
+                    confirmButtonText: 'Done!',
+                    showCloseButton: true,
+                    })
+            }
+            function swal()
+            {
+                Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3']
+                }).queue([
+                {
+                    title: 'Select Type',
+                text: 'Select type of files that you want to upload',
+                imageUrl: '3594607-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Type',
+                },
+                {
+                    title: 'Upload folder',
+                text: 'Upload from local device or using url.',
+                imageUrl: '3125018-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Upload',
+                },
+                {
+                    title: 'Annotate',
+                text: 'Annotate files using dicom viewer and save changes',
+                imageUrl: '3369515-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Annotate',
+                },
+                ]).then((result) => {
+                  if (result.value) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'All done!',
+                    text:'Now you can use our service',
+                    confirmButtonText: 'Lovely!'
+                    })
+                  }
+                })
+               
+            }
+    </script>
+    <script>
+    (document).ready(function( $ ){
+  // Get page title
+  	var pageTitle = $("title").text();
+  
+  // Change page title on blur
+  $(window).blur(function() {
+	  $("title").text("Miss You ❤");
+	});
+
+	// Change page title back on focus
+	$(window).focus(function() {
+	  $("title").text(pageTitle);
+	});
+});
+        </script>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js">
+	</script>
+	<style>
+		html {
+			overflow-y: auto;
+		}
+	</style>
+
+</head>
+
+<body  style="background:#f1f5f8">
+
+	<div class="ui teal attached menu" style="margin-bottom: 1em; background-color:rgb(118, 27, 204);">
+		<div class="header item" style="color:white;"> HOPS Disease Prediction Service</div>
+
+		<div class="right menu">
+			<a class="ui item" style="color:white;" onclick="swal()">
+				Instructions
+			</a>
+      <a class="ui item" style="color:white;" href="index.html">
+				Home 
+			</a>
+      <a class="ui item" style="color:white;" href="login.html">
+				Login 
+			</a>
+      			<a class="ui item" style="color:white;" href="register.html">
+				Register
+			</a>
+			<a class="ui item" style="color:white;">
+				Logout
+			</a>
+		</div>
+	</div>
+	<div class="ui container">
+            <div
+      style="display: inline-block; border: 1px solid gray;"
+      class="itk-vtk-viewer"
+      data-url="https://data.kitware.com/api/v1/file/564a65d58d777f7522dbfb61/download/data.nrrd"
+      data-viewport="1100x700"
+    ></div>
+            </div>
+            </div>
+        <script src='https://parall.ax/parallax/js/jspdf.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js'></script>
+        <script>
+           /* var doc = new jsPDF();
+            var specialElementHandlers = {
+                '#editor': function(element, renderer){
+                    return true;
+                }
+            };
+
+            doc.fromHTML($('#render_me').get(0), 15, 15, {
+                'width': 100, 
+                'elementHandlers': specialElementHandlers
+            });
+
+            $('a').click(function(){
+            doc.save('TestHTMLDoc.pdf');
+            });
+    
+           var element = document.getElementById('render_me');
+
+            html2pdf(element).set({
+            margin: 1,
+            filename: 'test.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: {orientation: 'portrait', unit: 'in', format: 'letter', compressPDF: false}
+            }).save();*/
+        </script>
+		<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'>
+		</script>
+		<script>
+			function swal()
+            {
+                Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3']
+                }).queue([
+                {
+                    title: 'Select Type',
+                text: 'Select type of files that you want to upload',
+                imageUrl: '3594607-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Type',
+                },
+                {
+                    title: 'Upload folder',
+                text: 'Upload from local device or using url.',
+                imageUrl: '3125018-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Upload',
+                },
+                {
+                    title: 'Annotate',
+                text: 'Annotate files using dicom viewer and save changes',
+                imageUrl: '3369515-min.jpg',
+                imageWidth: 320,
+                imageHeight: 200,
+                imageAlt: 'Annotate',
+                },
+                ]).then((result) => {
+                  if (result.value) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'All done!',
+                    text:'Now you can use our service',
+                    confirmButtonText: 'Lovely!'
+                    })
+                  }
+                })
+               
+            }
+		</script>
+      <script type="text/javascript" src="https://kitware.github.io/itk-vtk-viewer/app/itkVtkViewerCDN.js"></script>
+
+</body>
+
+</html>
