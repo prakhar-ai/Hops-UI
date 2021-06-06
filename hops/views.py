@@ -1,11 +1,14 @@
 from django.shortcuts import render
-
+import requests
+import json
+from django.http import HttpResponse
 # Create your views here.
 
 def home_page(request):
     return render(request,'base.html')
 
 def training(request):
+
     return render(request,'training.html')
 
 def prediction(request):
@@ -32,6 +35,11 @@ def comments(request):
 def vtkviewer(request):
     return render(request,'vtkviewer.html')
 
+def getreport(request):
+    studyid = request.POST.get("studyid")
+    post_data = {'study_instance_ids': str(studyid)}
+    response = requests.post('http://192.168.1.196:5000/analyze', data=post_data)
+    return HttpResponse(response.content)
 
 
 

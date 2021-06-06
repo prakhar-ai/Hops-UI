@@ -31,70 +31,30 @@
             </div>
           </div>
         </br>
-          <div id="ftype" class="ui violet basic floating dropdown labeled icon button" >
-    <i class="file icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>
-    <span id="filetype" class="text">FileType</span>
-    <div class="menu">
-        <div class="ui icon search input">
-        <i class="search icon"></i>
-        <input type="text" placeholder="Search File Type...">
-        </div>
-        <div class="divider"></div>
-        <div class="header">
-        <i class="file icon"></i>
-        Select File Type
-        </div>
-        <div class="scrolling menu">
-        <div class="item" data-value=".jpeg">
-            <div class="ui red empty circular label"></div>
-            JPEG
-        </div>
-        <div class="item" data-value=".dcm">
-            <div class="ui blue empty circular label"></div>
-            DICOM
-        </div>
-        <div class="item" data-value=".zip">
-            <div class="ui black empty circular label"></div>
-            ZIP
-        </div>
-        <div class="item" data-value=".png">
-            <div class="ui purple empty circular label"></div>
-            PNG
-        </div>
-        </div>
-    </div>
-    </div>
+          
 
 
           <button class="ui violet basic labeled icon button"  tabindex="0" id="uppy-btn" style="margin: 1em;" onclick="upload()"><i class="upload icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Upload File
           </button>
           
         </br>
-          <button class="ui violet disabled fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" onclick="$('#example5').progress('increment'); document.getElementById('bar-label').style.display = 'block';" style="background-color: rgba(16, 136, 136, 0.726);"><div>Diagnose</div>
+          
+        <form action="{% url 'getreport' %}" method="post" target="_blank">
+          {% csrf_token %}
+        <div class="ui input" style="margin-top: 2em;">
+          <input type="text" placeholder="Enter Study Instance ID" name="studyid" id="studyidfield">
+        </div>
+      </br>
+      <button class="ui violet fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" type="submit" onclick="poll(); document.getElementById('bar-label').style.display = 'block';" style="background-color: rgba(16, 136, 136, 0.726);"><div>Diagnose</div>
 
-        </button>
-        
-      <div class="ui teal progress " data-value="0" data-total="5" id="example5" style="margin: 3em;">
-        <div class="bar"></div>
-        <div class="label" id = "bar-label" style="display: none;">Building Report</div>
-      </div>
-        <div class="ui multiple progress" data-value="60,30,20,30" data-total="200"   style="margin: 3em;">
-        <div class="blue bar">
-          <div class="progress"></div>
-        </div>
-        <div class="yellow bar">
-          <div class="progress"></div>
-        </div>
-        <div class="purple bar">
-          <div class="progress"></div>
-        </div>
-        <div class="green bar">
-          <div class="progress"></div>
-        </div>
-        <div class="label" style="margin:1em">Elapsed Time: </div>
+      </button>
+
+      <div class="ui teal progress " data-value="0" data-total="100" id="example5" style="margin: 3em;">
+        <div class="bar"><div class="progress"></div></div>
+        <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
       </div>
   </br>
-        <button class="ui teal labeled icon disabled button" id = "report-download" onclick="$('#example5').progress('increment');" style="margin: 1em;"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View Report</button>
+        <button class="ui teal labeled icon disabled button" id = "report-download" onclick="" style="margin: 1em;"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View Report</button>
           <div id="drag-drop-area"></div>
         </div>
       </div>
@@ -104,11 +64,42 @@
 
 
 
-$('#example5')
-  .progress({
-   
+function poll(){
+
+
+/*
+var studyid = "1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720";
+var progressurl = "http://192.168.1.196:5000/get_progress_percents?study_instance_ids=".concat(studyid);
+    
+$.ajax({ url: 'http://192.168.1.196:5000/get_progress_percents', data : {study_instance_ids : "1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720"},type:"post", contentType: 'application/json',success: function(data){
+  //Update your dashboard gauge
+  document.getElementById("example5").setAttribute("data-value",data['status']);
+
+ }, dataType: "json", complete: function() {
+            setTimeout(poll, 5000)
+        }, timeout: 2000 });;
+
+*/
+var studyid = document.getElementById("studyidfield").value;
+
+
+var interval = setInterval(function() { 
+   if (document.getElementById("example5").getAttribute("data-value") < 100) { 
+    var http = new XMLHttpRequest();
+var url = 'http://192.168.1.196:5000/get_progress_percents';
+var params = 'study_instance_ids='.concat(studyid);
+console.log(params)
+http.open('POST', url, true);
+
+//Send the proper header information along with the request
+http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+      $('#example5').progress({
+    percent: JSON.parse(http.responseText).status,
     text: {
-      active  : 'Building Report {value} of {total}',
+      active  : 'Analyzing {value} % ',
       success : 'Report Completed!'
     },
     onSuccess: function(response){
@@ -129,6 +120,29 @@ $('#example5')
   }
   })
 ;
+
+document.getElementById("example5").setAttribute("data-value",JSON.parse(http.responseText).status);
+      console.log(JSON.parse(http.responseText).status);
+  // do something with your data   
+    }
+}
+http.send(params);
+
+
+
+   }
+   else { 
+      clearInterval(interval);
+   }
+}, 5000);
+
+
+
+
+  }
+
+
+
 </script>
 
 
@@ -188,10 +202,6 @@ $('#example5')
             })
             uppy.use(Uppy.Tus, {endpoint: 'https://tusd.tusdemo.net/files/'})
             const Url = Uppy.Url
-            uppy.use(Url, {target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io/'})
-            uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
-            uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
-            uppy.use(Uppy.OneDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
             uppy.on('complete', (result) => {
                 console.log('Upload complete! We’ve uploaded these files:', result.successful)
                 document.getElementById("diag-button").classList.remove('disabled');
@@ -215,29 +225,8 @@ $('#example5')
     });
     function upload()
     {
-        //console.log(value);
-        if(value=="FileType")
-        {
-            Swal.fire({
-                    icon:'error',
-                    title: 'Please select type of file',
-                    
-                    confirmButtonText: 'Okay!'
-                    })
-        }
-        else
-        {
+
             uppy.getPlugin('Dashboard').openModal();
-            allowedfiles=[];
-            
-            console.log(value);
-            allowedfiles.push(value);
-            //console.log(allowedfiles[0]); 
-            //console.log(uppy);
-            uppy["opts"]["restrictions"]["allowedFileTypes"]=allowedfiles;
-           // document.getElementById("uppy-btn").classList.remove('disabled');
-            //document.getElementById("uppy-btn").classList.add('active');
-        }
     }
 </script>
 

@@ -63,11 +63,16 @@
 
           <button class="ui violet basic labeled icon button"  tabindex="0" id="uppy-btn" style="margin: 1em;" onclick="upload()"><i class="upload icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Upload File
           </button>
-          
+          <form action="{% url 'getreport' %}" method="post">
+            {% csrf_token %}
+          <div class="ui input">
+            <input type="text" placeholder="Enter Study Instance ID" name="studyid">
+          </div>
         </br>
-        <button class="ui violet disabled fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" style="background-color: rgba(16, 136, 136, 0.726);" onclick="train()"><div>Train</div>
+        
+        <button class="ui violet fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" style="background-color: rgba(16, 136, 136, 0.726);" type="submit"><div>Train</div>
         </button>
-
+    </form>
   </br>
        
           <div id="drag-drop-area"></div>

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from hops.views import home_page,training,prediction,faqs,comments,vtkviewer,report,login,register,files
+from hops.views import *
 
 
 urlpatterns = [
@@ -30,4 +30,5 @@ urlpatterns = [
     path('login',login),
     path('register',register),
     path('report',report),  
+    path('getreport',getreport,name='getreport'),  
 ]
