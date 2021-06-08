@@ -106,6 +106,17 @@
 
 
          </div>
+
+<script>
+    var data = JSON.parse("{{data|escapejs}}");
+    var type = data['type'];
+    var reason = data['reason'];
+    var description = data['description'];
+    var review = data['review'];
+    console.log(data);
+    document.getElementById('editor').innerHTML = review;
+
+</script>
        
         <script>
             $('.dropdown').dropdown();

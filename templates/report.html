@@ -10,7 +10,7 @@
                 <div id="table">
                 <table class="ui teal table">
                     
-                    <tbody>
+                    <tbody id="show_data">
                         <tr>
                         <td><b>Name</b></td>
                         <td>Rahul Jain</td>
@@ -50,26 +50,26 @@
                         <td><b>Region2</b></td>
                         <td>30%</td>
                         </tr></tbody></table>">Front</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/front.png">
+                        <img class="ui medium image" id="front" src="">
                     </div>
                     </div>
                     <div class="column">
                     <div class="ui segment">
                         <a id="pop" class="ui violet ribbon label">Lateral</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/lateral.png">
+                        <img class="ui medium image" id="lateral" src="">
 
                     </div>
                     </div>
                     <div class="column">
                     <div class="ui segment">
                         <a id="pop" class="ui violet ribbon label">Natural</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/natural.png">
+                        <img class="ui medium image" id="natural" src="">
                     </div>
                     </div>
                     <div class="column">
                         <div class="ui segment">
                         <a id="pop" class="ui violet ribbon label">Top</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/top.png">
+                        <img class="ui medium image" id="top" src="">
                     </div>
                     </div>
                  </div>
@@ -97,6 +97,74 @@
                         <i class="images icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View 2D Images
                      </button>
                 </div>
+
+        <script>
+            var data = JSON.parse("{{data|escapejs}}");
+            $('#top').attr("src","data:image/png;base64,"+data['top']);
+            $('#lateral').attr("src", "data:image/png;base64,"+data['lateral']);
+            $('#natural').attr("src", "data:image/png;base64,"+data['natural']);
+            $('#front').attr("src", "data:image/png;base64,"+data['front']);
+            //console.log(data['output']);
+
+            var obj = data['output'];
+            var crs = obj.co_rads_score;
+            var ggo = obj.ggo_ratio;
+            var left_i = obj.left_inferior_lobe_percentage_affected;
+            var left_s = obj.left_superior_lobe_percentage_affected;
+            var right_i = obj.right_inferior_lobe_percentage_affected;
+            var right_m = obj.right_middle_lobe_percentage_affected;
+            var right_s = obj.right_superior_lobe_percentage_affected;
+            var no_ls = obj.num_of_lung_slices;
+            var no_ls_p = obj.num_of_positive_slices;
+            var ratio = obj.ratio_of_positive_slices;
+            var result_type = obj.ResultType;
+            var GlobalDiagnosis = obj.GlobalDiagnosis;
+            var k=`<tr><td><b>Name</b></td><td>Rahul Jain</td></tr>
+                        <tr>
+                        <td><b>Age</b></td>
+                        <td>21</td>
+                        </tr>
+                         <tr>
+                        <td><b>Sex</b></td>
+                        <td>Male</td>
+                        </tr>
+                        <tr>
+                        <td><b>Address</b></td>
+                        <td>19 Narayan Chambers , 2nd Floor , Behind Patang Hotel , Ashram Road, Ahmedabad, Gujarat 380009</td>
+                        </tr>
+                        <tr>
+                        <td><b>Result Type</b></td>
+                        <td>${result_type}</td>
+                        </tr>
+                         <tr>
+                        <td><b>Global Diagnosis</b></td>
+                         <td>${GlobalDiagnosis}</td>
+                        </tr>
+                        <tr>
+                        <td><b>CO Rads Score</b></td>
+                         <td>${crs}</td>
+                        </tr>
+                        <tr>
+                        <td><b>GGO ratio</b></td>
+                         <td>${ggo}</td>
+                        </tr>
+                        <tr>
+                        <td><b>No of lung slices</b></td>
+                         <td>${no_ls}</td>
+                        </tr>
+                        <tr>
+                        <td><b>No of positive slices</b></td>
+                         <td>${no_ls_p}</td>
+                        </tr>
+                        <tr>
+                        <td><b>Ratio positive slices</b></td>
+                         <td>${ratio} %</td>
+                        </tr>`
+            document.getElementById('show_data').innerHTML = k;
+
+           // console.log(data);
+
+        </script>
             
         <script src='https://parall.ax/parallax/js/jspdf.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js'></script>
@@ -137,5 +205,6 @@
             hide: 400
             }
          });
+     </script>
 			
 {% endblock content %}
