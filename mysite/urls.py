@@ -29,7 +29,6 @@ urlpatterns = [
     path('files',files),
     path('login',login),
     path('register',register),
-    path('report',report),  
-    path('studyid',studyid),  
+    path('report',report),   
     path('getreport',getreport,name='getreport'),  
 ]

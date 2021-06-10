@@ -11,21 +11,21 @@
             <thead>
                 
            
-            <tr>  
-                <th>Study Instance ID</th>
-                <th>Status</th>
-                <th>Progress</th>
-                <th>View Report</th>
-                </tr>
+                <tr>
+                    {% for header in data_dict.headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                    </tr>
             </thead>
             <tbody>
-                <tr>
+                {% for x in data_dict.rows %}
+            <tr>
                 <td class="collapsing"> 
-                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                    <i class="file outline icon"></i><p>{{x.0}}</p>
                 </td>
-                <td class="positive"><i class="icon checkmark"></i>Completed </td>
+                <td class="positive"><i class="icon checkmark"></i>{{x.1}}</td>
                 <td>      
-                <div class="ui indicating progress tablebar">
+                <div class="ui indicating progress tablebar" data-percent={{x.2}}>
                     <div class="bar"><div class="progress"></div></div>
                   </div>
                 
@@ -34,7 +34,9 @@
                     <i class="plus circle icon" style="padding-right:5px;"></i>View Report
                     </div></a></td>
                 </tr>
-                <tr>
+            <tr>
+        {% endfor %}
+               <!--
                 
                 <td>
                     <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
@@ -92,6 +94,8 @@
                     <i class="plus circle icon" style="padding-right:5px;"></i>View Report
                     </div></a></td>
                 </tr>
+
+                -->
             </tbody>
 
             </table>    
