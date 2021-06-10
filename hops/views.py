@@ -10,9 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 def home_page(request):
     return render(request,'base.html')
 
-def prediction(request):
-    return render(request,'prediction.html')
-
 def report(request):
     return render(request,'report.html')
 
@@ -74,7 +71,7 @@ def jobs(request):
         rows.append(row)
 
     data_dict = {'headers' : headers, 'rows' : rows}
-    return render(request,'jobs.html',{'data_dict' : data_dict})
+    return render(request,'jobs.html',{'data_dict' : data_dict,'study_ids' : study_ids,'percent_completed': percent_completed})
 
 @csrf_exempt
 def getreport(request):

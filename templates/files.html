@@ -15,12 +15,11 @@
             </th>
             </tr>
             <tr>  
+                <th>Date</th>
                 <th>Name</th>
                 <th>Gender</th>
-                <th>IsAnnotated</th>
-                <th>Date</th>
-                <th>IsAnalyzed</th>
-                <th>Percentage</th>
+                <th>Annotated</th>
+                <th>Analyzed</th>
                 <th>Doctor Review</th>
                 <th>Analyse</th>
                 </tr>
@@ -104,7 +103,7 @@
            // var data = JSON.parse("{{data|escapejs}}");
             let request = new XMLHttpRequest();
             var response_data; 
-            request.open("POST", "http://192.168.1.196:5000/get?offset=1&count=20",
+            request.open("POST", "http://192.168.1.196:5000/get?offset=1&count=100",
                 true); 
             
             request.send();
@@ -132,25 +131,25 @@
                     var percentage = ob.percentage;
                     var studyid = ob.studyinstanceid;
                     //conole.log(1);
-                    k+=`<tr><td>${name}</td>`;
+                    k+=`<tr><td>${date}</td>`;
+                    k+=`<td>${name}</td>`;
                     k+=`<td>${gender}</td>`;
                     if(annotated==="True")
                     {
-                        k+=`<td class="positive"><i class="icon checkmark"></i>Annotated </td>`
+                        k+=`<td class="green"><i class="icon check square outline"  display: block;margin-left: auto;margin-right: auto;"></i>Annotated </td>`
                     }   
                     else{
-                        k+=`<td class="error"><i class="icon attention"></i>Not Annotated </td>`;
+                        k+=`<td class="warning"><i class = "icon minus square outline" style="  display: block;margin-left: auto;margin-right: auto;"></i></td>`;
                     }
-                     k+=`<td>${date}</td>`;
+                    
                     if(analyzed==="True")
                     {
-                        k+=`<td class="positive"><i class="icon checkmark"></i>Analyzed </td>`
+                        k+=`<td class="green"><i class="icon check square outline" style="  display: block;margin-left: auto;margin-right: auto;"></i></td>`
                     }
                     else
                     {   
-                        k+=`<td class="error"><i class="icon attention"></i>Not Analyzed </td>`;
+                        k+=`<td class="warning"><i class = "icon minus square outline" style="  display: block;margin-left: auto;margin-right: auto;"></i></td>`;
                     }
-                    k+=`<td>${percentage}</td>`;
                     k+=`<td><a onclick="myfunc('${key}')" style="color:white;"> <div class="ui small right floated teal labeled icon button">
                         <i class="plus circle icon" style="padding-right:5px;"></i>Review
                         </div></a></td>`;

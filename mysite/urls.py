@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page),
     path('faqs',faqs),
-    path('prediction',prediction),
     path('comments',comments),
     path('vtkviewer',vtkviewer),
     path('jobs',jobs),

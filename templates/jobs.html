@@ -23,9 +23,13 @@
                 <td class="collapsing"> 
                     <i class="file outline icon"></i><p>{{x.0}}</p>
                 </td>
-                <td class="positive"><i class="icon checkmark"></i>{{x.1}}</td>
-                <td>      
-                <div class="ui indicating progress tablebar" data-percent={{x.2}}>
+                {% if x.1 == "Ongoing" %}  
+                <td class="warning" id ="ongoing{{x.0}}"><i class="notched circle loading icon"></i>{{x.1}}</td>
+                {% else %}
+                <td class="positive"><i class="icon check"></i>{{x.1}}</td>
+                {% endif %}
+                <td>    
+                <div class="ui indicating progress" id = "{{x.0}}">
                     <div class="bar"><div class="progress"></div></div>
                   </div>
                 
@@ -98,19 +102,70 @@
                 -->
             </tbody>
 
-            </table>    
+            </table>   
         <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.24/js/dataTables.semanticui.min.js"></script>
         <script>
-            $(document).ready(function() {
-            $('#example').DataTable({
-                "order": [[ 0, "desc" ]]
-            });
-        });
+            var rows = {{study_ids|safe}};
+            var percents = {{percent_completed|safe}};     
+            for (i = 0; i < rows.length; i++) {
+                var element_id = '#'.concat(rows[i]);
+                element_id  = element_id.replaceAll(".", "\\.");
+                $(element_id).progress({
+            percent: percents[i],
+               });
 
 
-        $('.tablebar').progress({
-    percent: 100,})
-;
+        };
+
+
+
+function return_row () {
+    return {{study_ids|safe}};
+};
+
+function refresh() {
+    var studyids = rows.toString();
+    var http = new XMLHttpRequest();
+    var url = 'http://192.168.1.196:5000/get_progress_percents';
+    var params = 'study_instance_ids='.concat(studyids);
+    http.open('POST', url, true);
+    
+    
+    http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+
+
+            update_percent = JSON.parse(http.responseText).status.split(',');
+
+           for (i = 0; i < rows.length; i++) {
+                var element_id = '#'.concat(rows[i]);
+                element_id  = element_id.replaceAll(".", "\\.");
+                $(element_id).progress({
+            percent: update_percent[i],
+            onSuccess: function(response){
+                rows = return_row ();
+                console.log(rows[i]);
+                var ongoing_element_id = '#ongoing'.concat(rows[i]);
+                console.log(ongoing_element_id);
+                ongoing_element_id  = ongoing_element_id.replaceAll(".", "\\.");
+                document.getElementById(ongoing_element_id).innerHTML = '<i class="icon check"></i>Completed';
+
+                }
+               });
+
+
+        };
+            
+            }
+        }
+        http.send(params);
+    setTimeout(refresh, 5000);
+}
+
+setTimeout(refresh, 5000);
+
         </script>
 {% endblock content %}
