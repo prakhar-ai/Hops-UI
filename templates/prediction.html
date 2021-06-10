@@ -3,7 +3,7 @@
 
 <script>
     $("a").eq(5).removeClass("active");
-    $("a").eq(7).addClass("active");
+    $("a").eq(6).addClass("active");
     </script>
 
 <link href="https://transloadit.edgly.net/releases/uppy/v1.16.1/uppy.min.css" rel="stylesheet">
@@ -39,19 +39,18 @@
           
         </br>
           
-        <form action="{% url 'getreport' %}" method="post" target="_blank">
+        <form action="{% url 'getreport' %}" method="post" >
           {% csrf_token %}
         <div class="ui input" style="margin-top: 2em;">
           <input type="text" placeholder="Enter Study Instance ID" name="studyid" id="studyidfield">
         </div>
       </br>
-      <button class="ui violet fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" type="submit" onclick="poll(); document.getElementById('bar-label').style.display = 'block';" style="background-color: rgba(16, 136, 136, 0.726);"><div>Diagnose</div>
+      <button class="ui violet fluid button" id = "diag-button" style="margin: 1em; width: 8em;  margin: auto; width: 20%;" type="submit" onclick="poll(); " style="background-color: rgba(16, 136, 136, 0.726);"><div>Diagnose</div>
 
       </button>
 
       <div class="ui teal progress " data-value="0" data-total="100" id="example5" style="margin: 3em;">
         <div class="bar"><div class="progress"></div></div>
-        <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
       </div>
   </br>
         <button class="ui teal labeled icon disabled button" id = "report-download" onclick="" style="margin: 1em;"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View Report</button>
@@ -59,6 +58,23 @@
         </div>
       </div>
    
+
+
+
+
+<script>
+function analyze(studyid){
+
+  var http = new XMLHttpRequest();
+  var url = 'http://192.168.1.196:5000/analyze';
+  var params = 'study_instance_ids='.concat(studyid);
+  http.open('POST', url, true);
+  http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  http.send(params);
+
+    }
+
+</script>
 
 <script>
 
@@ -82,6 +98,39 @@ $.ajax({ url: 'http://192.168.1.196:5000/get_progress_percents', data : {study_i
 */
 var studyid = document.getElementById("studyidfield").value;
 
+
+var status_percent = "";
+let data = 'study_instance_ids='.concat(studyid);
+
+
+
+
+fetch("http://192.168.1.196:5000/get_progress_percents?".concat(data), {
+  method: "POST", 
+  headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+}).then(res => {res.json().then(function(data) {
+        status_percent = data.status;
+
+        if (status_percent == "") {
+            $('body')
+            .toast({
+              class: 'error',
+              message: `An error occured !`
+            })
+          ;}
+          
+else if (status_percent == "100") {
+  $('body')
+  .toast({
+    class: 'warning',
+    message: `Report already analyzed !`
+  })
+;
+} 
+else{
 
 var interval = setInterval(function() { 
    if (document.getElementById("example5").getAttribute("data-value") < 100) { 
@@ -134,7 +183,15 @@ http.send(params);
    else { 
       clearInterval(interval);
    }
-}, 5000);
+}, 10000);
+
+}
+        console.log(status_percent);
+        
+      });
+
+});
+
 
 
 

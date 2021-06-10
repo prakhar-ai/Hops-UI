@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script>
+    $("a").eq(5).removeClass("active");
+    $("a").eq(7).addClass("active");
+    </script>
+
+    <table id="example" class="ui celled table" style="width:100%">
+            <thead>
+                
+           
+            <tr>  
+                <th>Study Instance ID</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>View Report</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td class="collapsing"> 
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                <td class="positive"><i class="icon checkmark"></i>Completed </td>
+                <td>      
+                <div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                  </div>
+                
+                </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                
+                <td>
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                 <td class="warning"><i class="icon attention"></i>Ongoing </td>
+                <td>       
+                    
+                    <div class="ui indicating progress tablebar">
+                        <div class="bar"><div class="progress"></div></div>
+                        <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                      </div>
+                
+                
+                </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui disabled small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                   <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                <td class="positive"><i class="icon checkmark"></i>Completed </td>
+                <td><div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                  </div></td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+               <td class="positive"><i class="icon checkmark"></i>Completed </td>
+                <td ><div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                  </div></td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                <td class="warning"><i class="icon attention"></i>Ongoing </td>
+                <td> <div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                  </div> </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui disabled small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+            </tbody>
+
+            </table>    
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.semanticui.min.js"></script>
+        <script>
+            $(document).ready(function() {
+            $('#example').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
+        });
+
+
+        $('.tablebar').progress({
+    percent: 100,})
+;
+        </script>
+{% endblock content %}
