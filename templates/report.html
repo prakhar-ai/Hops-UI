@@ -87,7 +87,7 @@
                 </div>-->
                 
                   <div class="ui container" style="margin-top:1%">
-                <button class="ui green labeled icon button" id = "report-download"  style="margin:1%"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download Report</button>
+                <a href="../getreport" target="_blank" class="ui green labeled icon button" id = "report-download"  style="margin:1%"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download Report</a>
                 <a href="/vtkviewer">
                  <button class="ui blue primary labeled icon button" style="margin:1%">
                         <i class="x ray icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View VTK File
@@ -99,14 +99,23 @@
                 </div>
 
         <script>
+            
             var data = JSON.parse("{{data|escapejs}}");
-            $('#top').attr("src","data:image/png;base64,"+data['top']);
-            $('#lateral').attr("src", "data:image/png;base64,"+data['lateral']);
-            $('#natural').attr("src", "data:image/png;base64,"+data['natural']);
-            $('#front').attr("src", "data:image/png;base64,"+data['front']);
-            //console.log(data['output']);
+            var studyid = data['studyid'];
+            var arr = data['list'];
+            var len = arr.length;
+            // $('#top').attr("src","data:image/png;base64,"+data['top']);
+            // $('#lateral').attr("src", "data:image/png;base64,"+data['lateral']);
+            // $('#natural').attr("src", "data:image/png;base64,"+data['natural']);
+            // $('#front').attr("src", "data:image/png;base64,"+data['front']);
+            $('#top').attr("src",studyid+"/"+arr[len-2]);
+            $('#lateral').attr("src",studyid+"/"+arr[len-6]);
+            $('#natural').attr("src",studyid+"/"+arr[len-5]);
+            $('#front').attr("src",studyid+"/"+arr[len-8]);
+            
 
-            var obj = data['output'];
+            var obj = data['out'];
+            console.log(obj);
             var crs = obj.co_rads_score;
             var ggo = obj.ggo_ratio;
             var left_i = obj.left_inferior_lobe_percentage_affected;

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from hops.views import home_page,training,prediction,faqs,comments,vtkviewer,report,login,register,files
+from hops.views import home_page,training,prediction,faqs,comments,vtkviewer,report,login,register,files,get_report,view_2d_images
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,8 +30,8 @@ urlpatterns = [
     path('files',files),
     path('login',login),
     path('register',register),
-    path('report',report),  
+    path('report',report),
+    path('getreport',get_report),
+    path('view2d',view_2d_images)
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

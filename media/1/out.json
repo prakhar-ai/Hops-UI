@@ -1,0 +1,19 @@
+{
+    "StudyInstanceUID": "1.2.826.0.1.3680043.8.1678.101.10637203703447639663.147272",
+    "num_of_positive_slices": "414",
+    "num_of_lung_slices": "701",
+    "ratio_of_positive_slices": "59.06",
+    "focal_ggo_detections": "True",
+    "ggo_ratio": "100.0",
+    "consolidation_ratio": "0.0",
+    "ResultType": "Abnormal",
+    "GlobalDiagnosis": "Mild",
+    "GlobalDiagnosisDetails": "9.0, 9.02, 1.58, 10.97, 9.03, 9.34",
+    "co_rads_score": "9.0",
+    "right_superior_lobe_percentage_affected": "9.02",
+    "right_middle_lobe_percentage_affected": "1.58",
+    "right_inferior_lobe_percentage_affected": "10.97",
+    "left_superior_lobe_percentage_affected": "9.03",
+    "left_inferior_lobe_percentage_affected": "9.34",
+    "3DDiagnosisImage": ""
+}

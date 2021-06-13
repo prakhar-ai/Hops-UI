@@ -70,7 +70,7 @@
                 
                 //console.log(request);
                 if (request.status == 200) {
-                    //console.log(JSON.parse(request.response));
+                    console.log(JSON.parse(request.response));
                     response_data = JSON.parse(request.response);
                     console.log(response_data);
                     var k='';
@@ -89,8 +89,15 @@
                     date = dt.toLocaleDateString();
                     var percentage = ob.percentage;
                     var studyid = ob.studyinstanceid;
+                    var uploaded = ob.is_uploaded;
                     //conole.log(1);
-                    k+=`<tr><td>${name}</td>`;
+                    if(uploaded==="True")
+                    {
+                        k+=`<tr><td><i class="icon checkmark"></i>${name}</td>`;
+                    }
+                    else{
+                        k+=`<tr><td><i class="icon close red"></i>${name}</td>`;
+                    }
                     k+=`<td>${gender}</td>`;
                     if(annotated==="True")
                     {
@@ -102,11 +109,11 @@
                      k+=`<td>${date}</td>`;
                     if(analyzed==="True")
                     {
-                        k+=`<td class="positive"><i class="icon checkmark"></i>Analyzed </td>`
+                        k+=`<td class="positive"><i class="icon checkmark"></i>Analyzed&nbsp&nbsp <a href="../getreport" target="_blank" class="ui center small green button" id = "report-download">Get Report</a></td>`
                     }
                     else
                     {   
-                        k+=`<td class="error"><i class="icon attention"></i>Not Analyzed </td>`;
+                        k+=`<td class="error"><i class="icon attention"></i> Not Analyzed <button class="ui small center purple button">Analyze now</button> </td>`;
                     }
                     k+=`<td>${percentage}</td>`;
                     k+=`<td><a onclick="myfunc('${key}')" style="color:white;"> <div class="ui small right floated teal labeled icon button">

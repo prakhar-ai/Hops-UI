@@ -5,5 +5,5 @@ class Report(models.Model):
     Main_Img = models.ImageField(upload_to='images/')
     
 class Save_report(models.Model):
-    studyid = models.CharField(max_length=100)
+    studyid = models.CharField(primary_key = True,max_length=100)
     my_data = models.TextField()
