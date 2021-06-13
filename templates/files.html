@@ -4,10 +4,12 @@
 
 <script>
     $("a").eq(5).removeClass("active");
-    $("a").eq(10).addClass("active");
+    $("a").eq(9).addClass("active");
     </script>
 
-    <table id="example" class="ui celled table" style="width:100%">
+
+
+    <table id="example" class="ui celled table" style="width:100%" >
             <thead>
                 
             <tr><th colspan="7">
@@ -44,20 +46,21 @@
                 <input type="hidden" name="description" id="description">
                 <input type="hidden" name="review" id="review">
             </form> 
-       
+
         <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.24/js/dataTables.semanticui.min.js"></script>
         <script>
 
-            function analyze(studyid){
+            function analyze(studyid,name){
                         $('#app-body')
                         .toast({
                             message: 'Please Wait',
-                            class : 'teal',
+                            class : 'yellow',
                             className: {
                             toast: 'ui message'
                             }
                         })
+
                     var http = new XMLHttpRequest();
                     var url = 'http://192.168.1.196:5000/analyze';
                     var params = 'study_instance_ids='.concat(studyid);
@@ -70,14 +73,14 @@
                         $('#app-body')
                         .toast({
                             message: 'Analysis Started',
-                            class : 'teal',
+                            class : 'green',
                             className: {
                             toast: 'ui message'
                             }
                         })
                         $.ajax({
                             url: '/getreport',
-                            data: {"studyid": studyid},
+                            data: {"studyid": studyid,"name": name},
                             type: 'POST'
                         }).done(function(response){
                             console.log(response);
@@ -153,7 +156,7 @@
                     k+=`<td><a onclick="myfunc('${key}')" style="color:white;"> <div class="ui small right floated teal labeled icon button">
                         <i class="plus circle icon" style="padding-right:5px;"></i>Review
                         </div></a></td>`;
-                    k+=`<td><a onclick="analyze('${studyid}')" style="color:white;"> <div class="ui small right floated green labeled icon button">
+                    k+=`<td><a onclick="analyze('${studyid}','${name}')" style="color:white;"> <div class="ui small right floated green labeled icon button">
                         <i class="plus circle icon" style="padding-right:5px;"></i>Analyse
                         </div></a></td>
                     </tr>`;

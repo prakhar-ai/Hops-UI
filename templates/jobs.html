@@ -4,7 +4,7 @@
 
 <script>
     $("a").eq(5).removeClass("active");
-    $("a").eq(7).addClass("active");
+    $("a").eq(6).addClass("active");
     </script>
 
     <table id="example" class="ui celled table" style="width:100%">
@@ -21,7 +21,7 @@
                 {% for x in data_dict.rows %}
             <tr>
                 <td class="collapsing"> 
-                    <i class="file outline icon"></i><p>{{x.0}}</p>
+                    <p>{{x.3}}</p>
                 </td>
                 {% if x.1 == "Ongoing" %}  
                 <td class="warning" id ="ongoing{{x.0}}"><i class="notched circle loading icon"></i>{{x.1}}</td>
@@ -29,7 +29,7 @@
                 <td class="positive"><i class="icon check"></i>{{x.1}}</td>
                 {% endif %}
                 <td>    
-                <div class="ui indicating progress" id = "{{x.0}}">
+                <div class="ui violet progress" id = "{{x.0}}" style="margin: 10px;">
                     <div class="bar"><div class="progress"></div></div>
                   </div>
                 
@@ -37,6 +37,9 @@
                 <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
                     <i class="plus circle icon" style="padding-right:5px;"></i>View Report
                     </div></a></td>
+                <td><a href="/download_report/{{x.0}}"><div class="ui small right floated blue labeled icon button">
+                        <i class="plus circle icon" style="padding-right:5px;"></i>Download Zip
+                        </div></a></td></tr>
                 </tr>
             <tr>
         {% endfor %}
@@ -147,11 +150,11 @@ function refresh() {
             percent: update_percent[i],
             onSuccess: function(response){
                 rows = return_row ();
-                console.log(rows[i]);
                 var ongoing_element_id = '#ongoing'.concat(rows[i]);
                 console.log(ongoing_element_id);
                 ongoing_element_id  = ongoing_element_id.replaceAll(".", "\\.");
-                document.getElementById(ongoing_element_id).innerHTML = '<i class="icon check"></i>Completed';
+                console.log(document.getElementById(ongoing_element_id).innerHTML)
+                //document.getElementById(ongoing_element_id).innerHTML = '<i class="icon check"></i>Completed';
 
                 }
                });
@@ -162,10 +165,12 @@ function refresh() {
             }
         }
         http.send(params);
+
     setTimeout(refresh, 5000);
 }
 
 setTimeout(refresh, 5000);
 
-        </script>
+
+</script>
 {% endblock content %}
