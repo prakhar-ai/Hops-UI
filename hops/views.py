@@ -137,7 +137,7 @@ def report(request):
             }
     dataJSON = dumps(dicti)
     
-    return render(request,'report.html',{'data':dataJSON})
+    return render(request,'report.html',{'data':dataJSON,'output': output})
 
 def faqs(request):
     return render(request,'faqs.html')
