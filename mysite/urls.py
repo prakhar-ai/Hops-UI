@@ -15,23 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from hops.views import home_page,training,prediction,faqs,comments,vtkviewer,report,login,register,files,get_report,view_2d_images
+from hops.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_page),
+    path('', files),
     path('faqs',faqs),
-    path('training',training),
-    path('prediction',prediction),
     path('comments',comments),
     path('vtkviewer',vtkviewer),
+    path('jobs',jobs),
     path('files',files),
     path('login',login),
     path('register',register),
-    path('report',report),
+    path('report',report),   
+    path('save_to_jobs',save_to_jobs,name='save_to_jobs'),  
+    path('view_2d_images',view_2d_images),
     path('getreport',get_report),
-    path('view2d',view_2d_images)
+    path('download_report/<str:studyid>',download_report,name='download_report'),
+    path('download_vti',download_vti),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

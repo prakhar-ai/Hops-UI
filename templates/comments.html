@@ -24,11 +24,11 @@
                 <p><br></p>
             </div>
           </div>
-             <div class="field">
+             <!-- <div class="field">
                 <label>Dr Review for SMS</label>
                 <textarea rows="3"></textarea>
-            </div>
-            <div class="two fields">
+            </div> -->
+            <!-- <div class="two fields">
                 <div class="field">
                 <label> Condition Type </label>
              <div class="ui selection dropdown" >
@@ -95,7 +95,21 @@
                 </div>
                 </div>  
 
+                </div> -->
+                <div class="two fields">
+                    
+                        <div class="field">
+                          <label> Condition Type </label>
+                          <input type="text" id="type" name="cdtype" placeholder="Condition Type">
+                        </div>
+                        <div class="field">
+                          <label> Condition Type Reason </label>
+                          <input type="text" id="reason" name="reason" placeholder="Reason">
+                        </div>
+                      
                 </div>
+
+
             </div>
  <button class="ui teal labeled icon button" style="margin-top: 1em;"><i class="save icon"></i>Save Review
           </button>
@@ -113,9 +127,10 @@
     var reason = data['reason'];
     var description = data['description'];
     var review = data['review'];
-    console.log(data);
+    //console.log(data);
     document.getElementById('editor').innerHTML = review;
-
+    $('#type').val(type);
+    $('#reason').val(reason);
 </script>
        
         <script>

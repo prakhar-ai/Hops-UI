@@ -13,7 +13,7 @@
             </style>
 <script>
     $("a").eq(5).removeClass("active");
-    $("a").eq(8).addClass("active");
+    $("a").eq(7).addClass("active");
     </script>
             <div id="render_me">
                 <div class="ui container">
@@ -67,14 +67,7 @@
                 <div class="ui four column grid" style="margin-top:1%">
                     <div class="column">
                     <div class="ui segment">
-                         <a class="ui violet ribbon label"  id="pop" data-html="<table class='ui violet table'><tbody><tr>
-                        <td><b>Region1</b></td>
-                        <td>70%</td>
-                        </tr>
-                        <tr>
-                        <td><b>Region2</b></td>
-                        <td>30%</td>
-                        </tr></tbody></table>">Front</a>
+                         <a class="ui violet ribbon label">Front</a>
                         <img class="ui medium image" id="front" src="">
                     </div>
                     </div>
@@ -113,12 +106,12 @@
                 
                   <div class="ui container" style="margin-top:1%">
                 <a href="../getreport" target="_blank" class="ui green labeled icon button" id = "report-download"  style="margin:1%"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download Report</a>
-                <a href="/vtkviewer">
+                <a href="/download_vti">
                  <button class="ui blue primary labeled icon button" style="margin:1%">
-                        <i class="x ray icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View VTK File
+                        <i class="x ray icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download VTK File
                      </button>
                      </a>
-                     <a href="/view2d">
+                     <a href="/view_2d_images">
                   <button class="ui teal primary labeled icon button" style="margin:1%">
                         <i class="images icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View 2D Images
                      </button>
@@ -224,7 +217,7 @@
             }).save();*/
         </script>
 		
-		<script>
+		<!-- <script>
             $('#pop').popup({
             inline     : true,
             hoverable  : true,
@@ -234,9 +227,9 @@
             hide: 400
             }
          });
-     </script>
+     </script> -->
 
-<script src='https://dpesofficial.github.io/map/jquery.maphilight.js'></script>
+<!-- <script src='https://dpesofficial.github.io/map/jquery.maphilight.js'></script>
 <script src='https://dpesofficial.github.io/map/imageMapResizer.min.js'></script>
 
 <script>
@@ -249,6 +242,6 @@ $('#image-map').maphilight({
 	 fillOpacity: 0.3,
      fade: true,
 });
-    </script>
+    </script> -->
 
 {% endblock content %}

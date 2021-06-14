@@ -1,19 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-#import urllib2
-from json import load
-from io import BytesIO
+import requests
+import json
+import os
+from fpdf import FPDF
+from json import dumps
 from zipfile import ZipFile
 from urllib.request import urlopen
-import base64
-from json import dumps
-from .models import Report,Save_report
-from fpdf import FPDF
-from datetime import datetime, timedelta
-import os
-from django.conf import settings
-
+from json import load
+from django.http import HttpResponse
+from hops.models import OngoingJobs
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
 #VPN Username and Password:
 #Username:- dermatology
 #Password:- XJ8S@DA1$&
@@ -35,7 +34,6 @@ class PDF(FPDF):
         self.set_font('Arial', 'I', 8)
         self.set_text_color(128)
         self.cell(0, 10, 'Page ' + str(self.page_no()), 0, 0, 'C')
-
 
 def create_title(day, pdf):
     pdf.ln(20)
@@ -62,56 +60,8 @@ def create_title(day, pdf):
         pdf.ln(2*th)
     pdf.ln(2.5*th)
 
-
 def home_page(request):
     return render(request,'base.html')
-
-def training(request):
-    return render(request,'training.html')
-
-def prediction(request):
-    return render(request,'prediction.html')
-'''
-def report(request):
-    ID = '1'
-    try:
-        ob = Save_report.objects.get(studyid = ID)
-        return render(request,'report.html',{'data':ob.my_data})
-    except Exception:
-        
-        resp = urlopen('https://drive.google.com/uc?export=download&id=1dWUye322dBFsER-O_2yni3z9vBjhcIHh')
-        zipfile = ZipFile(BytesIO(resp.read()))
-        #print(zipfile.namelist())
-        studyid = '1'
-        for name in zipfile.namelist():
-            mypath = settings.MEDIA_URL
-            outpath = os.path.join(mypath,studyid)
-            zipfile.extract(name, outpath)
-        with zipfile.open('front.png', "r") as image_file:
-            front = base64.b64encode(image_file.read()).decode('utf-8')
-        with zipfile.open('lateral.png', "r") as image_file:
-            lateral = base64.b64encode(image_file.read()).decode('utf-8')
-        with zipfile.open('natural.png', "r") as image_file:
-            natural = base64.b64encode(image_file.read()).decode('utf-8')
-        with zipfile.open('top.png', "r") as image_file:
-            top = base64.b64encode(image_file.read()).decode('utf-8')
-        with zipfile.open('out.json', "r") as json_file:
-            output = load(json_file)
-        
-        #pdf.output(filename, 'F')
-        #print(output)
-        dicti = {
-            'front':front,
-            'lateral':lateral,
-            'natural':natural,
-            'top':top,
-            'output':output
-        }
-        dataJSON = dumps(dicti)
-        Save_report.objects.create(studyid = ID,my_data = dataJSON)
-       
-        return render(request,'report.html',{'data':dataJSON})
-'''
 
 def report(request):
     
@@ -148,36 +98,6 @@ def login(request):
 def register(request):
     return render(request,'register.html')
 
-def files(request):
-    POST = request.POST
-    if POST:
-        typ = POST['type']
-        reason = POST['reason']
-        description = POST['description']
-        review  = POST['review']
-        dicti = {
-            'type':typ,
-            'reason':reason,
-            'description':description,
-            'review':review
-        }
-        dataJSON = dumps(dicti)
-        return render(request,'comments.html',{'data':dataJSON})
-    else:
-        return render(request,'files.html')
-
-def comments(request):
-    return render(request,'comments.html')
-
-def vtkviewer(request):
-    return render(request,'vtkviewer.html')
-'''
-def display_images(request):
-  
-    if request.method == 'GET':
-        obs = Report.objects.all() 
-        return render((request, 'temp.html',{'images' : obs}))
-'''
 def view_2d_images(request):
     #resp = urlopen('https://drive.google.com/uc?export=download&id=1dWUye322dBFsER-O_2yni3z9vBjhcIHh')
     #zipfile = ZipFile(BytesIO(resp.read()))
@@ -201,6 +121,100 @@ def view_2d_images(request):
     return render(request,'twodimages.html',{'data':dataJSON})
 
 
+def files(request):
+    POST = request.POST
+    if POST:
+        typ = POST['type']
+        reason = POST['reason']
+        description = POST['description']
+        review  = POST['review']
+        dicti = {
+            'type':typ,
+            'reason':reason,
+            'description':description,
+            'review':review
+        }
+        dataJSON = dumps(dicti)
+        return render(request,'comments.html',{'data':dataJSON})
+    else:
+        return render(request,'files.html')
+
+def comments(request):
+    return render(request,'comments.html')
+
+def vtkviewer(request):
+    return render(request,'vtkviewer.html')
+
+def jobs(request):
+    data_dict = {}
+    study_ids = OngoingJobs.objects.all().values_list('studyid', flat=True) 
+    study_ids = list(set(study_ids)) 
+    names = OngoingJobs.objects.all().values_list('name', flat=True)
+    id = ','.join(study_ids)
+    post_data = {'study_instance_ids': str(id)}
+    percent_completed = requests.post('http://192.168.1.196:5000/get_progress_percents', data=post_data)
+    percent_completed = json.loads(percent_completed.text)['status']
+    percent_completed = percent_completed.split(",")
+    status = []
+    for i in percent_completed:
+        if i=="100":
+            status.append('Completed')
+        else:
+            status.append('Ongoing')
+    headers = ['Name','Status','Percent Completed']
+    rows = []
+    for i in range(len(study_ids)):
+        row = []
+        row.append(study_ids[i])
+        row.append(status[i])
+        row.append(percent_completed[i])
+        row.append(row.append(OngoingJobs.objects.filter(studyid=study_ids[i])[0].name))
+        rows.append(row)
+
+    data_dict = {'headers' : headers, 'rows' : rows}
+    return render(request,'jobs.html',{'data_dict' : data_dict,'study_ids' : study_ids,'percent_completed': percent_completed})
+
+@csrf_exempt
+def save_to_jobs(request):
+    id = request.POST.get("studyid")
+    patient_name = request.POST.get("name")
+    jobs = OngoingJobs(studyid=id,name=patient_name)
+    jobs.save()
+    return JsonResponse({'result' : "Successful",'Name' : patient_name,"Study ID" : id})
+
+def download_report(request,studyid):
+    """
+    post_data = {'study_instance_id': str(studyid)}
+    response_path = requests.post('http://192.168.1.196:5000/get_report', data=post_data)
+    path_to_file = response_path.text """
+    path_to_file = r"1.2.826.0.1.3680043.8.1678.101.10637297040685652766.532213_result.zip"
+    response = HttpResponse(content_type='application/zip') 
+    with open(path_to_file, 'rb') as fh:  
+        response = HttpResponse(fh.read(), content_type='application/zip')   
+        response['Content-Disposition'] = 'inline; filename=' + studyid + ".zip"
+        return response
+
+def download_vti(request):
+    studyid = '1.2.826.0.1.3680043.8.1678.101.10637297040685652766.532213_result'
+    dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    media =os.path.join(dirname, 'media')
+    outpath = os.path.join(media,studyid)
+    exis = os.path.isfile(outpath)
+    #print(outpath)
+    # for name in zipfile.namelist():    
+        # zipfile.extract(name, outpath)
+    with ZipFile('1.2.826.0.1.3680043.8.1678.101.10637297040685652766.532213_result.zip', "r") as zipfile:
+        arr = zipfile.namelist()
+        if not exis:
+            zipfile.extractall(outpath)
+        path = os.path.join(outpath,arr[len(arr)-1])
+        response = HttpResponse(content_type='application/vti') 
+        with open(path, 'rb') as fh:  
+            response = HttpResponse(fh.read(), content_type='application/vti')   
+            response['Content-Disposition'] = 'inline; filename=' + studyid + ".vti"
+    return response
+
+    
 def get_report(request):
     day = TEST_DATE
     filename = 'report.pdf'
@@ -225,7 +239,6 @@ def get_report(request):
         # zipfile.extract(name, outpath)
     with ZipFile('1.2.826.0.1.3680043.8.1678.101.10637297040685652766.532213_result.zip', "r") as zipfile:
         arr = zipfile.namelist()
-       
         if not exis:
             zipfile.extractall(outpath)
     
@@ -250,13 +263,3 @@ def get_report(request):
         response = HttpResponse(pdf2,content_type='application/pdf')
         response['Content-Disposition'] = 'filename=some_file.pdf'
     return response
-        
-"""def zipview(request):
-    url = ''
-    serialized_data = urllib2.urlopen(url).read()
-    data = json.loads(serialized_data)
-    return render(request,'temp2.html',{'data':data})
-"""
-
-
-

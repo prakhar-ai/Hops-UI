@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script>
+    $("a").eq(5).removeClass("active");
+    $("a").eq(6).addClass("active");
+    </script>
+
+    <table id="example" class="ui celled table" style="width:100%">
+            <thead>
+                
+           
+                <tr>
+                    {% for header in data_dict.headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                    <th> View </th>
+                    <th> Download</th>
+                    </tr>
+            </thead>
+            <tbody>
+                {% for x in data_dict.rows %}
+            <tr>
+                <td class="collapsing"> 
+                    <p>{{x.3}}</p>
+                </td>
+                {% if x.1 == "Ongoing" %}  
+                <td class="warning" id ="ongoing{{x.0}}"><i class="notched circle loading icon"></i>{{x.1}}</td>
+                {% else %}
+                <td class="positive"><i class="icon check"></i>{{x.1}}</td>
+                {% endif %}
+                <td>    
+                <div class="ui violet progress" id = "{{x.0}}" style="margin: 10px;">
+                    <div class="bar"><div class="progress"></div></div>
+                  </div>
+                
+                </td>
+                {% if x.1 == "Ongoing" %} 
+                <td><a href="/report" style="color:white;"> <div id="viewreport" class="ui disabled small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                <td><a href="/download_report/{{x.0}}"><div id="downloadzip" class="ui disabled small right floated blue labeled icon button">
+                        <i class="plus circle icon" style="padding-right:5px;"></i>Download Zip
+                        </div></a></td></tr>
+                {% else %}
+                <td><a href="/report" style="color:white;"> <div id="viewreport" class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                <td><a href="/download_report/{{x.0}}"><div id="downloadzip" class="ui small right floated blue labeled icon button">
+                        <i class="plus circle icon" style="padding-right:5px;"></i>Download Zip
+                        </div></a></td></tr>
+                {% endif %}
+                </tr>
+            <tr>
+        {% endfor %}
+               <!--
+                
+                <td>
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                 <td class="warning"><i class="icon attention"></i>Ongoing </td>
+                <td>       
+                    
+                    <div class="ui indicating progress tablebar">
+                        <div class="bar"><div class="progress"></div></div>
+                        <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                      </div>
+                
+                
+                </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui disabled small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                   <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                <td class="positive"><i class="icon checkmark"></i>Completed </td>
+                <td><div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                  </div></td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+               <td class="positive"><i class="icon checkmark"></i>Completed </td>
+                <td ><div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                  </div></td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+                <tr>
+                <td>
+                    <i class="file outline icon"></i>1.2.826.0.1.3680043.8.1678.101.10637286812405600288.433720
+                </td>
+                <td class="warning"><i class="icon attention"></i>Ongoing </td>
+                <td> <div class="ui indicating progress tablebar">
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="label" id = "bar-label" style="display: none;">Analyzing</div>
+                  </div> </td>
+                <td><a href="comments.html" style="color:white;"> <div class="ui disabled small right floated teal labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i>View Report
+                    </div></a></td>
+                </tr>
+
+                -->
+            </tbody>
+
+            </table>   
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.semanticui.min.js"></script>
+        <script>
+            var rows = {{study_ids|safe}};
+            var percents = {{percent_completed|safe}};     
+            for (i = 0; i < rows.length; i++) {
+                var element_id = '#'.concat(rows[i]);
+                element_id  = element_id.replaceAll(".", "\\.");
+                $(element_id).progress({
+            percent: percents[i],
+               });
+
+
+        };
+
+
+
+function return_row () {
+    return {{study_ids|safe}};
+};
+
+function refresh() {
+    var studyids = rows.toString();
+    var http = new XMLHttpRequest();
+    var url = 'http://192.168.1.196:5000/get_progress_percents';
+    var params = 'study_instance_ids='.concat(studyids);
+    http.open('POST', url, true);
+    
+    
+    http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+
+
+            update_percent = JSON.parse(http.responseText).status.split(',');
+
+           for (i = 0; i < rows.length; i++) {
+                var element_id = '#'.concat(rows[i]);
+                element_id  = element_id.replaceAll(".", "\\.");
+                $(element_id).progress({
+            percent: update_percent[i],
+            onSuccess: function(response){
+                location.reload();
+
+                }
+               });
+
+
+        };
+            
+            }
+        }
+        http.send(params);
+
+    setTimeout(refresh, 5000);
+}
+
+setTimeout(refresh, 5000);
+
+
+</script>
+{% endblock content %}
