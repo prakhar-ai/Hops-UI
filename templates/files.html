@@ -79,7 +79,7 @@
                             }
                         })
                         $.ajax({
-                            url: '/getreport',
+                            url: '/save_to_jobs',
                             data: {"studyid": studyid,"name": name},
                             type: 'POST'
                         }).done(function(response){

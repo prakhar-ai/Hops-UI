@@ -29,6 +29,8 @@ urlpatterns = [
     path('login',login),
     path('register',register),
     path('report',report),   
-    path('getreport',getreport,name='getreport'),  
+    path('save_to_jobs',save_to_jobs,name='save_to_jobs'),  
+    path('view_2d_images',view_2d_images),
+    path('getreport',get_report),
     path('download_report/<str:studyid>',download_report,name='download_report'),  
 ]

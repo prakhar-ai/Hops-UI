@@ -2,15 +2,35 @@
 
 {% block content %}
 
+<style>
+
+    polygon {
+      fill: #ADD8E6;
+    }
+    polygon:hover {
+      fill: #4a8df0;
+    }
+            </style>
 <script>
     $("a").eq(5).removeClass("active");
     $("a").eq(7).addClass("active");
     </script>
             <div id="render_me">
-                <div id="table">
-                <table class="ui teal table">
+                <div class="ui container">
+                    <svg height="380" width="500" style="float:right;" >
+                        <g transform="scale(0.4)">
+                        <polygon class = "test" points="289,417,295,439,300,461,307,470,313,484,321,500,326,510,333,526,343,542,353,556,364,572,389,597,412,617,420,622,429,624,440,637,388,656,357,672,327,686,312,694,296,703,275,707,262,690,258,656,260,598,263,546,270,503,278,453" data-title="Right Inferior Lobe" data-content="{{output.right_inferior_lobe_percentage_affected}} % " />
+                        <polygon class = "test" points="674,622,716,614,766,598,792,581,836,542,859,504,870,472,879,440,887,463,894,492,897,531,901,560,903,595,903,652,901,674,897,691,891,701,873,703,800,668,768,652,720,636,693,629"  data-title="Left Inferior Lobe" data-content="{{output.left_inferior_lobe_percentage_affected}} %"/>
+                        <polygon class = "test" points="692,144,718,156,741,177,759,197,784,231,794,247,812,270,822,287,838,317,853,353,864,375,870,397,877,422,875,439,873,454,867,467,862,482,856,495,848,511,841,526,830,540,816,552,797,568,780,581,765,591,746,600,724,605,702,611,662,619,639,616,621,608,603,585,606,544,623,446,626,411,628,377,623,317,627,262,635,204,652,161,674,143" data-title="Left Superior Lobe" data-content="{{output.left_superior_lobe_percentage_affected}} %" />
+                        <polygon class = "test" points="369,246,391,217,412,188,440,165,467,147,491,145,507,160,522,188,530,217,538,253,538,279,540,326,539,351,537,394,537,419,540,453,527,457,499,453,476,448,439,437,406,427,371,414,345,395,322,385,309,370,301,368,328,313,351,271" data-title="Right Superior Lobe" data-content="{{output.right_superior_lobe_percentage_affected}} %"/>
+                        <polygon class = "test" points="306,376,299,396,296,410,295,425,303,455,317,483,329,502,340,525,356,549,373,573,391,592,412,608,429,618,446,629,450,633,491,622,508,620,530,617,545,609,555,595,560,582,560,563,556,541,553,523,551,506,546,489,542,475,539,457,515,461,471,450,432,437,398,427,371,415,345,403,328,393,316,385"  data-title="Right Middle Lobe" data-content="{{output.right_middle_lobe_percentage_affected}} %"/>
+                    </g>
+                    </svg>
                     
-                    <tbody>
+                <div id="table" style="width: 45%; height: 380px;">
+                <table class="ui teal table" style="margin-top: 3em;">
+                    
+                    <tbody id="show_data">
                         <tr>
                         <td><b>Name</b></td>
                         <td>Rahul Jain</td>
@@ -39,6 +59,11 @@
                         </tr>
                     </tbody></table>
                 </div>
+            </div>
+
+
+            
+
                 <div class="ui four column grid" style="margin-top:1%">
                     <div class="column">
                     <div class="ui segment">
@@ -50,26 +75,26 @@
                         <td><b>Region2</b></td>
                         <td>30%</td>
                         </tr></tbody></table>">Front</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/front.png">
+                        <img class="ui medium image" id="front" src="">
                     </div>
                     </div>
                     <div class="column">
                     <div class="ui segment">
                         <a id="pop" class="ui violet ribbon label">Lateral</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/lateral.png">
+                        <img class="ui medium image" id="lateral" src="">
 
                     </div>
                     </div>
                     <div class="column">
                     <div class="ui segment">
                         <a id="pop" class="ui violet ribbon label">Natural</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/natural.png">
+                        <img class="ui medium image" id="natural" src="">
                     </div>
                     </div>
                     <div class="column">
                         <div class="ui segment">
                         <a id="pop" class="ui violet ribbon label">Top</a>
-                        <img class="ui medium image" src="https://cdn.jsdelivr.net/gh/prakhar-ai/Hops-UI/templates/top.png">
+                        <img class="ui medium image" id="top" src="">
                     </div>
                     </div>
                  </div>
@@ -87,16 +112,88 @@
                 </div>-->
                 
                   <div class="ui container" style="margin-top:1%">
-                <button class="ui green labeled icon button" id = "report-download"  style="margin:1%"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download Report</button>
+                <a href="../getreport" target="_blank" class="ui green labeled icon button" id = "report-download"  style="margin:1%"><i class="file alternate icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>Download Report</a>
                 <a href="/vtkviewer">
                  <button class="ui blue primary labeled icon button" style="margin:1%">
                         <i class="x ray icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View VTK File
                      </button>
                      </a>
-                  <button class="ui teal primary labeled icon button" style="margin:1%" type="submit">
+                     <a href="/view_2d_images">
+                  <button class="ui teal primary labeled icon button" style="margin:1%">
                         <i class="images icon" style="background-color: rgba(100, 31, 211, 0.089);"></i>View 2D Images
                      </button>
+                    </a>
                 </div>
+
+        <script>
+
+            $('.test')
+            .popup({
+            })
+            ;
+
+            var data = JSON.parse("{{data|escapejs}}");
+            var studyid = data['studyid'];
+            var arr = data['list'];
+            var len = arr.length;
+            // $('#top').attr("src","data:image/png;base64,"+data['top']);
+            // $('#lateral').attr("src", "data:image/png;base64,"+data['lateral']);
+            // $('#natural').attr("src", "data:image/png;base64,"+data['natural']);
+            // $('#front').attr("src", "data:image/png;base64,"+data['front']);
+            $('#top').attr("src",studyid+"/"+arr[len-2]);
+            $('#lateral').attr("src",studyid+"/"+arr[len-6]);
+            $('#natural').attr("src",studyid+"/"+arr[len-5]);
+            $('#front').attr("src",studyid+"/"+arr[len-8]);
+            
+
+            var obj = data['out'];
+            console.log(obj);
+            var crs = obj.co_rads_score;
+            var ggo = obj.ggo_ratio;
+            var left_i = obj.left_inferior_lobe_percentage_affected;
+            var left_s = obj.left_superior_lobe_percentage_affected;
+            var right_i = obj.right_inferior_lobe_percentage_affected;
+            var right_m = obj.right_middle_lobe_percentage_affected;
+            var right_s = obj.right_superior_lobe_percentage_affected;
+            var no_ls = obj.num_of_lung_slices;
+            var no_ls_p = obj.num_of_positive_slices;
+            var ratio = obj.ratio_of_positive_slices;
+            var result_type = obj.ResultType;
+            var GlobalDiagnosis = obj.GlobalDiagnosis;
+            var k=`
+                        <tr>
+                        <td><b>Result Type</b></td>
+                        <td>${result_type}</td>
+                        </tr>
+                         <tr>
+                        <td><b>Global Diagnosis</b></td>
+                         <td>${GlobalDiagnosis}</td>
+                        </tr>
+                        <tr>
+                        <td><b>CO Rads Score</b></td>
+                         <td>${crs}</td>
+                        </tr>
+                        <tr>
+                        <td><b>GGO ratio</b></td>
+                         <td>${ggo}</td>
+                        </tr>
+                        <tr>
+                        <td><b>No of lung slices</b></td>
+                         <td>${no_ls}</td>
+                        </tr>
+                        <tr>
+                        <td><b>No of positive slices</b></td>
+                         <td>${no_ls_p}</td>
+                        </tr>
+                        <tr>
+                        <td><b>Ratio positive slices</b></td>
+                         <td>${ratio} %</td>
+                        </tr>`
+            document.getElementById('show_data').innerHTML = k;
+
+           // console.log(data);
+
+        </script>
             
         <script src='https://parall.ax/parallax/js/jspdf.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js'></script>
@@ -137,5 +234,21 @@
             hide: 400
             }
          });
-			
+     </script>
+
+<script src='https://dpesofficial.github.io/map/jquery.maphilight.js'></script>
+<script src='https://dpesofficial.github.io/map/imageMapResizer.min.js'></script>
+
+<script>
+
+$('#image-map').maphilight({
+   strokeColor: '0000FF',
+   strokeWidth: 2,
+   fill: true,
+	 fillColor: '000000',
+	 fillOpacity: 0.3,
+     fade: true,
+});
+    </script>
+
 {% endblock content %}
