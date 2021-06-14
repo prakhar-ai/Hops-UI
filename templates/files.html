@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- <script>
+    $("a").eq(5).removeClass("active");
+    $("a").eq(9).addClass("active");
+    </script> -->
+
+
+
+    <table id="example" class="ui celled table" style="width:100%" >
+            <thead>
+                
+            <tr><th colspan="7">
+            My Files
+            </th>
+            </tr>
+            <tr>  
+                <th>Date</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Annotated</th>
+                <th>Analyzed</th>
+                <th>Doctor Review</th>
+                <th>Analyse</th>
+                </tr>
+            </thead>
+            <tbody id="something">
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                <th colspan="7">
+                    <div class="ui right floated primary labeled icon button">
+                    <i class="plus circle icon" style="padding-right:5px;"></i> Add New
+                    </div>
+                </th>
+                </tr>
+            </tfoot>
+            </table>
+            <form id="formId1" action="" method="POST">
+               {% csrf_token %}
+                <input type="hidden" name="type" id="type">
+                <input type="hidden" name="reason" id="reason">
+                <input type="hidden" name="description" id="description">
+                <input type="hidden" name="review" id="review">
+            </form> 
+
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.semanticui.min.js"></script>
+        <script>
+
+            function analyze(studyid,name){
+                        $('#app-body')
+                        .toast({
+                            message: 'Please Wait',
+                            class : 'yellow',
+                            className: {
+                            toast: 'ui message'
+                            }
+                        })
+
+                    var http = new XMLHttpRequest();
+                    var url = 'http://192.168.1.196:5000/analyze';
+                    var params = 'study_instance_ids='.concat(studyid);
+                    http.open('POST', url, true);
+                    http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                    http.onreadystatechange = function() {//Call a function when the state changes.
+                        if(http.readyState == 4 && http.status == 200) {
+                        console.log(JSON.parse(http.responseText))
+                        $('#app-body')
+                        .toast({
+                            message: 'Analysis Started',
+                            class : 'green',
+                            className: {
+                            toast: 'ui message'
+                            }
+                        })
+                        $.ajax({
+                            url: '/save_to_jobs',
+                            data: {"studyid": studyid,"name": name},
+                            type: 'POST'
+                        }).done(function(response){
+                            window.location.replace("/jobs");
+                        });
+                        }
+                        
+                    }
+                    http.send(params);
+
+                    }
+
+            function myfunc(studyid)
+                {
+                    var ob = response_data[studyid];
+                        
+                            $('#type').val(ob.type);
+                            $('#reason').val(ob.reason);
+                            $('#description').val(ob.description);
+                            $('#review').val(ob.review);
+                            $('#formId1').submit();
+                }
+
+           // var data = JSON.parse("{{data|escapejs}}");
+            let request = new XMLHttpRequest();
+            var response_data; 
+            request.open("POST", "http://192.168.1.196:5000/get?offset=1&count=100",
+                true); 
+            
+            request.send();
+            request.onload = () => {
+                
+                //console.log(request);
+                if (request.status == 200) {
+                    //console.log(JSON.parse(request.response));
+                    response_data = JSON.parse(request.response);
+                   // console.log(response_data);
+                    var k='';
+                    //console.log(response_data.length);
+                    var keys = Object.keys(response_data);
+
+                   keys.forEach((key, index) => {
+                    var ob = response_data[key];
+                    var name = ob.name;
+                    var gender = ob.sex;
+                    var annotated = ob.is_annotated;
+                    var analyzed = ob.is_analyzed; 
+                    var date  =  ob.date;
+                    var pattern = /(\d{4})(\d{2})(\d{2})/;
+                    var dt = new Date(date.replace(pattern,'$1-$2-$3'));
+                    date = dt.toLocaleDateString();
+                    var percentage = ob.percentage;
+                    var studyid = ob.studyinstanceid;
+                    //conole.log(1);
+                    k+=`<tr><td>${date}</td>`;
+                    k+=`<td>${name}</td>`;
+                    k+=`<td>${gender}</td>`;
+                    if(annotated==="True")
+                    {
+                        k+=`<td class="green"><i class="icon check square outline"  display: block;margin-left: auto;margin-right: auto;"></i>Annotated </td>`
+                    }   
+                    else{
+                        k+=`<td class="warning"><i class = "icon minus square outline" style="  display: block;margin-left: auto;margin-right: auto;"></i></td>`;
+                    }
+                    
+                    if(analyzed==="True")
+                    {
+                        k+=`<td class="green"><i class="icon check square outline" style="  display: block;margin-left: auto;margin-right: auto;"></i></td>`
+                    }
+                    else
+                    {   
+                        k+=`<td class="warning"><i class = "icon minus square outline" style="  display: block;margin-left: auto;margin-right: auto;"></i></td>`;
+                    }
+                    k+=`<td><a onclick="myfunc('${key}')" style="color:white;"> <div class="ui small right floated teal labeled icon button">
+                        <i class="plus circle icon" style="padding-right:5px;"></i>Review
+                        </div></a></td>`;
+                    k+=`<td><a onclick="analyze('${studyid}','${name}')" style="color:white;"> <div class="ui small right floated green labeled icon button">
+                        <i class="plus circle icon" style="padding-right:5px;"></i>Analyse
+                        </div></a></td>
+                    </tr>`;
+                    });
+
+                    //console.log(k);
+                    document.getElementById('something').innerHTML=k;
+                     $('#example').DataTable({
+                        "order": [[ 0, "desc" ]]
+                        });
+                } else {
+                        console.log("Something went wrong.");
+                    }
+                };
+
+               
+
+        </script>
+        <script>
+            
+           
+       
+        </script>
+{% endblock content %}
